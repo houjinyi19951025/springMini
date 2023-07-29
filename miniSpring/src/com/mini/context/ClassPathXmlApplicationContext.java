@@ -2,14 +2,6 @@ package com.mini.context;
 
 import com.mini.beans.*;
 import com.mini.core.ClassPathXmlResource;
-import org.dom4j.Attribute;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-
-import java.net.URL;
-import java.util.*;
 
 /**
  * @program: miniSpring 上下文
@@ -19,7 +11,7 @@ import java.util.*;
  **/
 
 public class ClassPathXmlApplicationContext implements BeanFactory {
-    BeanFactory beanFactory;
+    SimpleBeanFactory beanFactory;
 
     public ClassPathXmlApplicationContext(String fileName) {
         ClassPathXmlResource resource = new ClassPathXmlResource(fileName);
@@ -35,9 +27,19 @@ public class ClassPathXmlApplicationContext implements BeanFactory {
     }
 
     @Override
-    public void registerBeanDefinition(BeanDefinition beanDefinition) {
-        this.beanFactory.registerBeanDefinition(beanDefinition);
+    public void registerBean(String beanName, Object oj) {
+
     }
+
+    @Override
+    public Boolean containsBean(String beanName) {
+        return null;
+    }
+
+//    @Override
+//    public void registerBean(BeanDefinition beanDefinition) {
+//        this.beanFactory.registerBeanDefinition(beanDefinition);
+//    }
 
 
 }

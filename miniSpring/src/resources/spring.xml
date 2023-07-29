@@ -2,7 +2,12 @@
 
 <beans>
 
-    <bean id="testServiceImpl" class="com.mini.test.TestServiceImpl"></bean>
+    <bean id="testServiceImpl" class="com.mini.test.TestServiceImpl">
+
+        <property type=" " name="" value="">
+
+        </property>
+    </bean>
 
 </beans>
 

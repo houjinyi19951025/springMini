@@ -11,8 +11,8 @@ import org.dom4j.Element;
  **/
 
 public class XmlBeanDefinitionReader {
-    private  BeanFactory beanFactory;
-    public XmlBeanDefinitionReader(BeanFactory beanFactory) {
+    private  SimpleBeanFactory beanFactory;
+    public XmlBeanDefinitionReader(SimpleBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
     }
 

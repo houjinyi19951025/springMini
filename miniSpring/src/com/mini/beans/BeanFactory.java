@@ -13,10 +13,18 @@ public interface BeanFactory {
     Object getBean(String beanName) throws BeanException;
 
     /**
-     * fetch data by beanDefinition
+     * fetch data by beanName
      *
-     * @param beanDefinition
+     * @param beanName
      * @return object
      */
-    void registerBeanDefinition(BeanDefinition beanDefinition);
+   void registerBean( String beanName,Object oj);
+
+    /**
+     * fetch data by beanName
+     *
+     * @param beanName
+     * @return object*/
+    Boolean containsBean(String beanName);
+
 }

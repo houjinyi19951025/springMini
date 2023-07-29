@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @program: miniSpring
@@ -12,22 +14,20 @@ import java.util.Map;
  * @create: 2023-07-29 20:06
  **/
 
-public class SimpleBeanFactory implements BeanFactory {
-    private List<BeanDefinition> beanDefinitions = new ArrayList<>();
-    private List<String> beanNames = new ArrayList<>();
-    private Map<String,Object> singletons =  new HashMap<>();
+public class SimpleBeanFactory  extends DefaultSingletonBeanRegistry implements BeanFactory{
+
+    private Map<String,BeanDefinition> definitionMap =  new ConcurrentHashMap<>(256);
 
     @Override
     public Object getBean(String beanName) throws BeanException {
-        Object singleton = singletons.get(beanName);
+        Object singleton = this.getSingleton(beanName);
         if(singleton == null){
-            int i = beanNames.indexOf(beanName);
-            if(i == -1){
-                throw new BeanException("not find beanName......");
+            BeanDefinition beanDefinition = definitionMap.get(beanName);
+            if(beanDefinition == null){
+                throw new BeanException("not find beanDefinition");
             }
-            BeanDefinition beanDefinition = beanDefinitions.get(i);
             try {
-                singleton = Class.forName(beanDefinition.getClassName()).newInstance();
+                 singleton = Class.forName(beanDefinition.getClassName()).newInstance();
             } catch (InstantiationException e) {
                 throw new RuntimeException(e);
             } catch (IllegalAccessException e) {
@@ -35,17 +35,26 @@ public class SimpleBeanFactory implements BeanFactory {
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
-
-            singletons.put(beanName,singleton);
-
+            this.registerBean(beanName,singleton);
         }
         return singleton;
     }
 
     @Override
-    public void registerBeanDefinition(BeanDefinition beanDefinition) {
-        beanDefinitions.add(beanDefinition);
-        beanNames.add(beanDefinition.getId());
+    public Boolean containsBean(String beanName) {
+        return this.containsSingleton(beanName);
+    }
+
+    @Override
+    public void registerBean(String beanName,Object obj) {
+        this.registerSingleton(beanName,obj);
+    }
+
+    public void registerBeanDefinition(BeanDefinition beanDefinition){
+        this.definitionMap.put(beanDefinition.getId(),beanDefinition);
 
     }
+
+
+
 }
