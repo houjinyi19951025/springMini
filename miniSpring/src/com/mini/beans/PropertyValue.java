@@ -12,9 +12,12 @@ public class PropertyValue {
 
     private final  Object value;
 
-    public PropertyValue(String name, Object value) {
+    private String type;
+
+    public PropertyValue(String name, Object value,String type) {
         this.name = name;
         this.value = value;
+        this.type = type;
     }
 
     public String getName() {
@@ -23,5 +26,9 @@ public class PropertyValue {
 
     public Object getValue() {
         return value;
+    }
+
+    public String getType() {
+        return type;
     }
 }

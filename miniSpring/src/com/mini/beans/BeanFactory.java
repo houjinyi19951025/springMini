@@ -27,4 +27,28 @@ public interface BeanFactory {
      * @return object*/
     Boolean containsBean(String beanName);
 
+    /**
+     * fetch data by name
+     *
+     * @param name
+     * @return object*/
+    boolean isSingleton(String name);
+
+    /**
+     * fetch data by name
+     *
+     * @param name
+     * @return object*/
+    boolean isPrototype(String name);
+
+    /**
+     * fetch data by name
+     *
+     * @param name
+     * @return object*/
+    Class<?> getType(String name);
+
+
+
+
 }

@@ -4,9 +4,9 @@
 
     <bean id="testServiceImpl" class="com.mini.test.TestServiceImpl">
 
-        <property type=" " name="" value="">
+        <property type="String" name="userName" value="iyb-houjinyi"/>
 
-        </property>
+        <constructor-arg type="String" name="passWord" value="hjy19951025!"></constructor-arg>
     </bean>
 
 </beans>
