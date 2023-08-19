@@ -27,11 +27,11 @@ public class SimpleBeanFactory  extends DefaultSingletonBeanRegistry implements 
     public void registerBeanDefinition(String name, BeanDefinition bd) {
         this.definitionMap.put(name,bd);
         this.beanDefinitionNames.add(name);
-        try {
-            getBean(name);
-        } catch (BeanException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            getBean(name);
+//        } catch (BeanException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     @Override
@@ -43,6 +43,8 @@ public class SimpleBeanFactory  extends DefaultSingletonBeanRegistry implements 
                 throw new BeanException("not find beanDefinition");
             }
             singleton = createBean(beanDefinition);
+
+
             if(singleton == null ){
                 throw new BeanException("singleton is null");
             }
@@ -53,6 +55,74 @@ public class SimpleBeanFactory  extends DefaultSingletonBeanRegistry implements 
     }
 
     private Object createBean(BeanDefinition beanDefinition) {
+        Class<?> clz = null;
+        Object  obj =  doCreateBean(beanDefinition);
+
+        try {
+            clz = Class.forName(beanDefinition.getClassName());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        handleProperties(obj,clz,beanDefinition);
+        return obj;
+
+    }
+
+    private void handleProperties(Object obj, Class<?> clz, BeanDefinition beanDefinition) {
+        PropertyValues propertyValues = beanDefinition.getPropertyValues();
+        if(!propertyValues.isEmpty()){
+            for(int i =0;i<propertyValues.size();i++){
+                PropertyValue propertyValue = propertyValues.getPropertyValueList().get(i);
+                String type = propertyValue.getType();
+                String name = propertyValue.getName();
+                Object value = propertyValue.getValue();
+
+                boolean ref = propertyValue.getRef();
+                Class<?> paramType = null;
+                Object pV = null;
+                if(!ref){
+                    if("String".equals(type) ||"java.lang.String".equals(type)){
+                        paramType = String.class;
+                    } else if("Integer".equals(type) || "java.lang.Integer".equals(type)){
+                        paramType = Integer.class;
+                    }else{
+                        paramType = String.class;
+                    }
+                    pV = value;
+                }else{
+                    try {
+                        pV = value;
+                        paramType = Class.forName(type);
+
+                        value = getBean((String) pV);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    } catch (BeanException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+
+                String methodName = "set"+name.substring(0,1).toUpperCase() + name.substring(1);
+
+                try {
+                    Method method = clz.getMethod(methodName, paramType);
+                    try {
+                        method.invoke(obj,value);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    } catch (InvocationTargetException e) {
+                        throw new RuntimeException(e);
+                    }
+                } catch (NoSuchMethodException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+        }
+    }
+
+    private Object doCreateBean(BeanDefinition beanDefinition) {
         Class<?> clz = null;
         Object obj = null;
         try {
@@ -76,9 +146,9 @@ public class SimpleBeanFactory  extends DefaultSingletonBeanRegistry implements 
                     }
 
                 }
-                 obj = clz.getConstructor(paramTypes).newInstance(paramValues);
+                obj = clz.getConstructor(paramTypes).newInstance(paramValues);
             }else{
-                 obj = clz.newInstance();
+                obj = clz.newInstance();
 
             }
         } catch (InstantiationException e) {
@@ -93,43 +163,7 @@ public class SimpleBeanFactory  extends DefaultSingletonBeanRegistry implements 
             throw new RuntimeException(e);
         }
 
-        PropertyValues propertyValues = beanDefinition.getPropertyValues();
-        if(!propertyValues.isEmpty()){
-            for(int i =0;i<propertyValues.size();i++){
-                PropertyValue propertyValue = propertyValues.getPropertyValueList().get(i);
-                String type = propertyValue.getType();
-                String name = propertyValue.getName();
-                Object value = propertyValue.getValue();
-                Class<?> paramType = null;
-                if("String".equals(type) ||"java.lang.String".equals(type)){
-                    paramType = String.class;
-                } else if("Integer".equals(type) || "java.lang.Integer".equals(type)){
-                    paramType = Integer.class;
-                }else{
-                    paramType = String.class;
-                }
-                String methodName = "set"+name.substring(0,1).toUpperCase() + name.substring(1);
-
-                try {
-                    Method method = clz.getMethod(methodName, paramType);
-                    try {
-                        method.invoke(obj,value);
-                    } catch (IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    } catch (InvocationTargetException e) {
-                        throw new RuntimeException(e);
-                    }
-                } catch (NoSuchMethodException e) {
-                    throw new RuntimeException(e);
-                }
-
-
-
-            }
-
-        }
-        return obj;
-
+       return obj;
     }
 
     @Override

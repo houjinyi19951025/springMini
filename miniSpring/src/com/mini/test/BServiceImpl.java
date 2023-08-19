@@ -7,21 +7,17 @@ package com.mini.test;
  * @create: 2023-07-29 15:45
  **/
 
-public class TestServiceImpl {
+public class BServiceImpl {
 
     private String userName;
 
     private String passWord;
 
-    private AServiceImpl aServiceImpl;
-
     public void say(){
-        System.out.println("说hello1111.........................userName"+userName+"passWord"+passWord);
-
-        aServiceImpl.say();
+        System.out.println("我是BServiceImpl");
     }
 
-    public TestServiceImpl(String passWord) {
+    public BServiceImpl(String passWord) {
         this.passWord = passWord;
     }
 
@@ -39,13 +35,5 @@ public class TestServiceImpl {
 
     public void setPassWord(String passWord) {
         this.passWord = passWord;
-    }
-
-    public AServiceImpl getaServiceImpl() {
-        return aServiceImpl;
-    }
-
-    public void setAServiceImpl(AServiceImpl aServiceImpl) {
-        this.aServiceImpl = aServiceImpl;
     }
 }

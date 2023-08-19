@@ -31,8 +31,8 @@ public class PropertyValues {
         this.propertyValueList.add(pv);
     }
 
-    public  void  addPropertyValue(String name,Object obj,String type){
-        this.propertyValueList.add(new PropertyValue(name,obj,type));
+    public  void  addPropertyValue(String name,Object obj,String type,boolean ref){
+        this.propertyValueList.add(new PropertyValue(name,obj,type,ref));
     }
 
     public boolean isEmpty(){

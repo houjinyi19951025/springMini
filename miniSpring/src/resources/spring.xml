@@ -7,7 +7,28 @@
         <property type="String" name="userName" value="iyb-houjinyi"/>
 
         <constructor-arg type="String" name="passWord" value="hjy19951025!"></constructor-arg>
+
+        <property type="com.mini.test.AServiceImpl" name="aServiceImpl" ref="aServiceImpl"/>
     </bean>
+
+    <bean id="aServiceImpl" class="com.mini.test.AServiceImpl">
+
+        <property type="String" name="userName" value="A-houjinyi"/>
+
+        <constructor-arg type="String" name="passWord" value="hjy19951025!"></constructor-arg>
+
+        <property type="com.mini.test.BServiceImpl" name="bServiceImpl" ref="bServiceImpl"/>
+
+    </bean>
+
+    <bean id="bServiceImpl" class="com.mini.test.BServiceImpl">
+
+        <property type="String" name="userName" value="B-houjinyi"/>
+
+        <constructor-arg type="String" name="passWord" value="hjy19951025!"></constructor-arg>
+
+    </bean>
+
 
 </beans>
 
