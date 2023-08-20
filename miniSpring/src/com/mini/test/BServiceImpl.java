@@ -13,11 +13,23 @@ public class BServiceImpl {
 
     private String passWord;
 
+    private TestServiceImpl testServiceImpl;
+
+
+    public TestServiceImpl getTestServiceImpl() {
+        return testServiceImpl;
+    }
+
+    public void setTestServiceImpl(TestServiceImpl testServiceImpl) {
+    this.testServiceImpl = testServiceImpl;
+    }
+
     public void say(){
-        System.out.println("我是BServiceImpl");
+        System.out.println("我是BServiceImpl我有TestServiceImpl"+testServiceImpl);
     }
 
     public BServiceImpl(String passWord) {
+        System.out.println("create BServiceImpl ");
         this.passWord = passWord;
     }
 

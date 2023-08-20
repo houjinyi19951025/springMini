@@ -13,11 +13,15 @@ import com.mini.core.ClassPathXmlResource;
 public class ClassPathXmlApplicationContext implements BeanFactory {
     SimpleBeanFactory beanFactory;
 
-    public ClassPathXmlApplicationContext(String fileName) {
+    public ClassPathXmlApplicationContext(String fileName,boolean isRefresh) {
         ClassPathXmlResource resource = new ClassPathXmlResource(fileName);
         beanFactory = new SimpleBeanFactory();
         XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
         xmlBeanDefinitionReader.loadBeanDefinitions(resource);
+        if(isRefresh){
+            beanFactory.refresh();
+        }
+
     }
     @Override
     public Object getBean(String beanId) throws BeanException {

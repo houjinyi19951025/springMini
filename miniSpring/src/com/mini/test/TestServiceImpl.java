@@ -22,6 +22,7 @@ public class TestServiceImpl {
     }
 
     public TestServiceImpl(String passWord) {
+        System.out.println("create TestServiceImpl ");
         this.passWord = passWord;
     }
 

@@ -22,6 +22,8 @@ public class SimpleBeanFactory  extends DefaultSingletonBeanRegistry implements 
 
     private List<String> beanDefinitionNames=new ArrayList<>();
 
+    private final  Map<String,Object> earlySingletonObjects = new HashMap<>(256);
+
 
     @Override
     public void registerBeanDefinition(String name, BeanDefinition bd) {
@@ -39,17 +41,17 @@ public class SimpleBeanFactory  extends DefaultSingletonBeanRegistry implements 
         Object singleton = this.getSingleton(beanName);
         if(singleton == null){
             BeanDefinition beanDefinition = definitionMap.get(beanName);
+            singleton = this.earlySingletonObjects.get(beanName);
             if(beanDefinition == null){
                 throw new BeanException("not find beanDefinition");
             }
-            singleton = createBean(beanDefinition);
-
-
+            if(singleton == null){
+                singleton = createBean(beanDefinition);
+                this.registerBean(beanName,singleton);
+            }
             if(singleton == null ){
                 throw new BeanException("singleton is null");
             }
-
-            this.registerBean(beanName,singleton);
         }
         return singleton;
     }
@@ -57,6 +59,8 @@ public class SimpleBeanFactory  extends DefaultSingletonBeanRegistry implements 
     private Object createBean(BeanDefinition beanDefinition) {
         Class<?> clz = null;
         Object  obj =  doCreateBean(beanDefinition);
+
+        this.earlySingletonObjects.put(beanDefinition.getId(),obj);
 
         try {
             clz = Class.forName(beanDefinition.getClassName());
@@ -213,5 +217,18 @@ public class SimpleBeanFactory  extends DefaultSingletonBeanRegistry implements 
     @Override
     public boolean containsBeanDefinition(String name) {
         return this.definitionMap.containsKey(name);
+    }
+
+    public void  refresh(){
+        for(String beanName :this.beanDefinitionNames){
+            try{
+                getBean(beanName);
+            }catch (BeanException e){
+
+            }
+
+
+        }
+
     }
 }

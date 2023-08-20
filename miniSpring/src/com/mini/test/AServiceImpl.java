@@ -17,7 +17,7 @@ public class AServiceImpl {
 
     public void say(){
         System.out.println("说hello1111.........................userName"+userName+"passWord"+passWord);
-
+        System.out.println("我是属性A我有属性B"+bServiceImpl);
         bServiceImpl.say();
     }
 
@@ -30,6 +30,7 @@ public class AServiceImpl {
     }
 
     public AServiceImpl(String passWord) {
+        System.out.println("create AServiceImpl");
         this.passWord = passWord;
     }
 

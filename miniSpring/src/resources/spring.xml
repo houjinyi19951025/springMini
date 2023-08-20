@@ -27,6 +27,8 @@
 
         <constructor-arg type="String" name="passWord" value="hjy19951025!"></constructor-arg>
 
+        <property type="com.mini.test.TestServiceImpl" name="testServiceImpl" ref="testServiceImpl"/>
+
     </bean>
 
 
