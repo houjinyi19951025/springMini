@@ -1,4 +1,7 @@
-package com.mini.beans;
+package com.mini.beans.factory.config;
+
+import com.mini.beans.factory.config.ArgumentValues;
+import com.mini.beans.factory.config.PropertyValues;
 
 /**
  * @program: miniSpring

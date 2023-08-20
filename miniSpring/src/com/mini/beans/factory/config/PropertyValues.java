@@ -1,4 +1,6 @@
-package com.mini.beans;
+package com.mini.beans.factory.config;
+
+import com.mini.beans.PropertyValue;
 
 import java.util.ArrayList;
 import java.util.List;

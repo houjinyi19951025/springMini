@@ -1,5 +1,7 @@
 package com.mini.test;
 
+import com.mini.beans.factory.annotation.Autowired;
+
 /**
  * @program: miniSpring
  * @description:[module-module]-[flow-flow]-[tag-tag]
@@ -15,10 +17,15 @@ public class TestServiceImpl {
 
     private AServiceImpl aServiceImpl;
 
+    @Autowired
+    private PersonServiceImpl personService;
+
     public void say(){
         System.out.println("说hello1111.........................userName"+userName+"passWord"+passWord);
 
         aServiceImpl.say();
+        System.out.println(">>>>>>>>>>>>>执行personService");
+        personService.say();
     }
 
     public TestServiceImpl(String passWord) {

@@ -1,6 +1,8 @@
-package com.mini.beans;
+package com.mini.beans.factory.support;
 
-/** 
+import com.mini.beans.factory.config.BeanDefinition;
+
+/**
 * @Description: bean 的仓库
 * @Param: 
 * @return: 
@@ -17,4 +19,7 @@ public interface BeanDefinitionRegistry {
     BeanDefinition getBeanDefinition(String name);
 
     boolean containsBeanDefinition(String name);
+
+    abstract class AbstractBeanFactory {
+    }
 }

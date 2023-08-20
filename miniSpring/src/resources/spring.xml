@@ -31,6 +31,12 @@
 
     </bean>
 
+    <bean id="personService" class="com.mini.test.PersonServiceImpl">
+
+
+
+    </bean>
+
 
 </beans>
 

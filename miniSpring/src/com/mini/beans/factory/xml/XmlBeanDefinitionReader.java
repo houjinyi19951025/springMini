@@ -1,5 +1,11 @@
-package com.mini.beans;
+package com.mini.beans.factory.xml;
 
+import com.mini.beans.*;
+import com.mini.beans.factory.config.ArgumentValues;
+import com.mini.beans.factory.config.BeanDefinition;
+import com.mini.beans.factory.config.PropertyValues;
+import com.mini.beans.factory.support.AbstractBeanFactory;
+import com.mini.beans.factory.support.SimpleBeanFactory;
 import com.mini.core.Resource;
 import org.dom4j.Element;
 
@@ -14,9 +20,10 @@ import java.util.List;
  **/
 
 public class XmlBeanDefinitionReader {
-    private  SimpleBeanFactory beanFactory;
-    public XmlBeanDefinitionReader(SimpleBeanFactory beanFactory) {
-        this.beanFactory = beanFactory;
+//    private SimpleBeanFactory beanFactory;
+    private AbstractBeanFactory abstractBeanFactory;
+    public XmlBeanDefinitionReader(AbstractBeanFactory beanFactory) {
+        this.abstractBeanFactory = beanFactory;
     }
 
     public void loadBeanDefinitions(Resource resource){
@@ -58,9 +65,10 @@ public class XmlBeanDefinitionReader {
             beanDefinition.setConstructorArgumentValues(argumentValues);
 
 
-            beanFactory.registerBeanDefinition(beanDefinition.getId(),beanDefinition);
+            this.abstractBeanFactory.registerBeanDefinition(beanDefinition.getId(),beanDefinition);
 
         }
+        System.out.println("执行结束loadBeanDefinitions");
 
     }
 }

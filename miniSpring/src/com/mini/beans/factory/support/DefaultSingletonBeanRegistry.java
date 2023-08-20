@@ -1,4 +1,6 @@
-package com.mini.beans;
+package com.mini.beans.factory.support;
+
+import com.mini.beans.factory.config.SingletonBeanRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,23 +14,28 @@ import java.util.concurrent.ConcurrentHashMap;
  * @create: 2023-07-29 21:04
  **/
 
-public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry{
+public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
     private List<String> beanNames =  new ArrayList<>();
 
-    private Map<String,Object> singletons =  new ConcurrentHashMap<>();
+    private Map<String,Object> singletonObjects =  new ConcurrentHashMap<>();
     @Override
     public void registerSingleton(String beanName, Object singletonObject) {
-        synchronized (this.singletons){
+        synchronized (this.singletonObjects){
+            Object oldObject = this.singletonObjects.get(beanName);
+            if (oldObject != null) {
+                throw new IllegalStateException("Could not register object [" + singletonObject +
+                        "] under bean name '" + beanName + "': there is already object [" + oldObject + "] bound");
+            }
             beanNames.add(beanName);
-            singletons.put(beanName,singletonObject);
+            singletonObjects.put(beanName,singletonObject);
         }
 
     }
 
     @Override
     public Object getSingleton(String beanName) {
-        return singletons.get(beanName);
+        return singletonObjects.get(beanName);
     }
 
     @Override
@@ -42,8 +49,8 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry{
     }
 
     public void removeSingleton(String beanName){
-        synchronized (this.singletons){
-            singletons.remove(beanName);
+        synchronized (this.singletonObjects){
+            singletonObjects.remove(beanName);
             beanNames.remove(beanName);
         }
 

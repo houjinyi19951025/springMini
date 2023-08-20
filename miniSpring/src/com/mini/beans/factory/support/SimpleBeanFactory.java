@@ -1,4 +1,12 @@
-package com.mini.beans;
+package com.mini.beans.factory.support;
+
+import com.mini.beans.ArgumentValue;
+import com.mini.beans.BeanException;
+import com.mini.beans.factory.BeanFactory;
+import com.mini.beans.PropertyValue;
+import com.mini.beans.factory.config.ArgumentValues;
+import com.mini.beans.factory.config.BeanDefinition;
+import com.mini.beans.factory.config.PropertyValues;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -7,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @program: miniSpring
@@ -16,9 +23,9 @@ import java.util.concurrent.ConcurrentMap;
  * @create: 2023-07-29 20:06
  **/
 
-public class SimpleBeanFactory  extends DefaultSingletonBeanRegistry implements BeanFactory,BeanDefinitionRegistry{
+public class SimpleBeanFactory  extends DefaultSingletonBeanRegistry implements BeanFactory, BeanDefinitionRegistry {
 
-    private Map<String,BeanDefinition> definitionMap =  new ConcurrentHashMap<>(256);
+    private Map<String, BeanDefinition> definitionMap =  new ConcurrentHashMap<>(256);
 
     private List<String> beanDefinitionNames=new ArrayList<>();
 

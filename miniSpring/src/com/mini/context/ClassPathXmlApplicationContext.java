@@ -1,6 +1,11 @@
 package com.mini.context;
 
 import com.mini.beans.*;
+import com.mini.beans.factory.BeanFactory;
+import com.mini.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
+import com.mini.beans.factory.config.AutowireCapableBeanFactory;
+import com.mini.beans.factory.support.SimpleBeanFactory;
+import com.mini.beans.factory.xml.XmlBeanDefinitionReader;
 import com.mini.core.ClassPathXmlResource;
 
 /**
@@ -11,22 +16,56 @@ import com.mini.core.ClassPathXmlResource;
  **/
 
 public class ClassPathXmlApplicationContext implements BeanFactory {
-    SimpleBeanFactory beanFactory;
+//    SimpleBeanFactory beanFactory;
+
+    AutowireCapableBeanFactory autowireCapableBeanFactory;
 
     public ClassPathXmlApplicationContext(String fileName,boolean isRefresh) {
         ClassPathXmlResource resource = new ClassPathXmlResource(fileName);
-        beanFactory = new SimpleBeanFactory();
-        XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
+//        beanFactory = new SimpleBeanFactory();
+        AutowireCapableBeanFactory autowireCapableBeanFactory = new AutowireCapableBeanFactory();
+        XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(autowireCapableBeanFactory);
         xmlBeanDefinitionReader.loadBeanDefinitions(resource);
-        if(isRefresh){
-            beanFactory.refresh();
+//        if(isRefresh){
+//            beanFactory.refresh();
+//        }
+        this.autowireCapableBeanFactory = autowireCapableBeanFactory;
+
+        if (isRefresh) {
+            try {
+                refresh();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (BeanException e) {
+                e.printStackTrace();
+            }
         }
 
+
     }
+
+    public void refresh() throws BeanException, IllegalStateException {
+        // Register bean processors that intercept bean creation.
+        registerBeanPostProcessors(this.autowireCapableBeanFactory);
+
+        // Initialize other special beans in specific context subclasses.
+        onRefresh();
+    }
+
+    private void registerBeanPostProcessors(AutowireCapableBeanFactory bf) {
+        //if (supportAutowire) {
+        bf.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcessor());
+        //}
+    }
+
+    private void onRefresh() {
+        this.autowireCapableBeanFactory.refresh();
+    }
+
     @Override
     public Object getBean(String beanId) throws BeanException {
 
-        return beanFactory.getBean(beanId);
+        return autowireCapableBeanFactory.getBean(beanId);
 
     }
 
@@ -42,17 +81,17 @@ public class ClassPathXmlApplicationContext implements BeanFactory {
 
     @Override
     public boolean isSingleton(String name) {
-        return beanFactory.isSingleton(name);
+        return autowireCapableBeanFactory.isSingleton(name);
     }
 
     @Override
     public boolean isPrototype(String name) {
-        return beanFactory.isPrototype(name);
+        return autowireCapableBeanFactory.isPrototype(name);
     }
 
     @Override
     public Class<?> getType(String name) {
-        return beanFactory.getType(name);
+        return autowireCapableBeanFactory.getType(name);
     }
 
 //    @Override
