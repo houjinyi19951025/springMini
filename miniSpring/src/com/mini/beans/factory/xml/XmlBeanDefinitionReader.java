@@ -1,11 +1,12 @@
 package com.mini.beans.factory.xml;
 
 import com.mini.beans.*;
-import com.mini.beans.factory.config.ArgumentValues;
+
 import com.mini.beans.factory.config.BeanDefinition;
+import com.mini.beans.factory.config.ConstructorArgumentValue;
+import com.mini.beans.factory.config.ConstructorArgumentValues;
 import com.mini.beans.factory.config.PropertyValues;
 import com.mini.beans.factory.support.AbstractBeanFactory;
-import com.mini.beans.factory.support.SimpleBeanFactory;
 import com.mini.core.Resource;
 import org.dom4j.Element;
 
@@ -55,12 +56,12 @@ public class XmlBeanDefinitionReader {
             String[] refArray = refs.toArray(new String[0]);
             beanDefinition.setDependsOn(refArray);
             List<Element> constructorList = element.elements("constructor-arg");
-            ArgumentValues argumentValues = new ArgumentValues();
+            ConstructorArgumentValues argumentValues = new ConstructorArgumentValues();
             for(Element e :constructorList){
                 String type = e.attributeValue("type");
                 String name = e.attributeValue("name");
                 String value = e.attributeValue("value");
-                argumentValues.addGenericArgumentValue(new ArgumentValue(value,type,name));
+                argumentValues.addGenericArgumentValue(new ConstructorArgumentValue(type,name,value));
             }
             beanDefinition.setConstructorArgumentValues(argumentValues);
 

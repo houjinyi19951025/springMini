@@ -10,4 +10,6 @@ public interface ApplicationEventPublisher {
      * @param event rule id
      */
     void publishEvent(ApplicationEvent event);
+
+    void addApplicationLister(ApplicationListener applicationListener);
 }

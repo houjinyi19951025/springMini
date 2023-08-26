@@ -6,7 +6,6 @@ import com.mini.beans.PropertyValue;
 import com.mini.beans.factory.BeanFactory;
 import com.mini.beans.factory.config.*;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -17,11 +16,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public abstract  class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory,BeanDefinitionRegistry {
 
-    private Map<String, BeanDefinition> beanDefinitionMap=new ConcurrentHashMap<>(256);
+    public final Map<String, BeanDefinition> beanDefinitionMap=new ConcurrentHashMap<>(256);
 
-    private List<String> beanDefinitionNames=new ArrayList<>();
+    public final List<String> beanDefinitionNames=new ArrayList<>();
 
-    private final Map<String, Object> earlySingletonObjects = new HashMap<String, Object>(16);
+    public final Map<String, Object> earlySingletonObjects = new HashMap<String, Object>(16);
 
     public AbstractBeanFactory() {
     }
@@ -151,13 +150,13 @@ public abstract  class AbstractBeanFactory extends DefaultSingletonBeanRegistry 
         Object obj = null;
         try {
             clz = Class.forName(beanDefinition.getClassName());
-            ArgumentValues argumentValues = beanDefinition.getConstructorArgumentValues();
+            ConstructorArgumentValues argumentValues = beanDefinition.getConstructorArgumentValues();
             int argumentCount = argumentValues.getArgumentCount();
             if(!argumentValues.isEmpty()){
                 Class<?>[] paramTypes = new Class<?>[argumentCount];
                 Object[] paramValues = new Object[argumentCount];
                 for(int i= 0;i<argumentCount;i++){
-                    ArgumentValue indexArgumentValue = argumentValues.getIndexArgumentValue(i);
+                    ConstructorArgumentValue indexArgumentValue = argumentValues.getIndexArgumentValue(i);
                     if("String".equals(indexArgumentValue.getType()) ||"java.lang.String".equals(indexArgumentValue.getType())){
                         paramTypes[i] = String.class;
                         paramValues[i] = indexArgumentValue.getValue();
