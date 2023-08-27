@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<components>
+<component-scan base-package="com.mini.test.web"/>
+</components>
+<!--<beans>-->
+
+<!--    <bean id="/helloWord" class=""></bean>-->
+
+<!--</beans>-->

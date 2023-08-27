@@ -34,6 +34,7 @@ public class AServiceImpl {
         this.passWord = passWord;
     }
 
+
     public String getUserName() {
         return userName;
     }
