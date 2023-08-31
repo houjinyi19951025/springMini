@@ -1,5 +1,7 @@
 package com.mini.web;
 
+import com.mini.beans.BeanException;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +16,7 @@ import java.net.URL;
 import java.util.*;
 
 public class DispatcherServlet extends HttpServlet {
-
+    private WebApplicationContext webApplicationContext;
     private String sContextConfigLocation;
 
     private List<String> packageNames = new ArrayList<>();
@@ -45,6 +47,8 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+        this.webApplicationContext = (WebApplicationContext) this.getServletContext().getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+
         sContextConfigLocation = config.getInitParameter("contextConfigLocation");
         URL xmlPath = null;
         try {
@@ -61,6 +65,11 @@ public class DispatcherServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String sPath = req.getServletPath();
         System.out.println("doGet................sPath"+sPath);
+        try {
+            System.out.println(webApplicationContext.getBean("testServiceImpl").toString());
+        } catch (BeanException e) {
+            throw new RuntimeException(e);
+        }
         if(!this.urlMappingNames.contains(sPath)){
             return;
         }
