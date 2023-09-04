@@ -70,17 +70,17 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 
 
     }
-    abstract void finishRefresh();
-    abstract void registerListeners();
-    abstract void onRefresh();
+    protected abstract void finishRefresh();
+    protected abstract void registerListeners();
+    protected abstract void onRefresh();
 
-    abstract void initApplicationEventPublisher() ;
-
-
-    abstract  void registerBeanPostProcessors(ConfigurableListableBeanFactory beanFactory) ;
+    protected abstract void initApplicationEventPublisher() ;
 
 
-    abstract void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) ;
+    protected  abstract  void registerBeanPostProcessors(ConfigurableListableBeanFactory beanFactory) ;
+
+
+    protected abstract void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) ;
 
     @Override
     public void registerSingleton(String beanName, Object singletonObject) {

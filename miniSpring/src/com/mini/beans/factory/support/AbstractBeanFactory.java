@@ -93,7 +93,7 @@ public abstract  class AbstractBeanFactory extends DefaultSingletonBeanRegistry 
 
     private void handleProperties(Object obj, Class<?> clz, BeanDefinition beanDefinition) {
         PropertyValues propertyValues = beanDefinition.getPropertyValues();
-        if(!propertyValues.isEmpty()){
+        if(propertyValues !=null && !propertyValues.isEmpty()){
             for(int i =0;i<propertyValues.size();i++){
                 PropertyValue propertyValue = propertyValues.getPropertyValueList().get(i);
                 String type = propertyValue.getType();
@@ -151,8 +151,9 @@ public abstract  class AbstractBeanFactory extends DefaultSingletonBeanRegistry 
         try {
             clz = Class.forName(beanDefinition.getClassName());
             ConstructorArgumentValues argumentValues = beanDefinition.getConstructorArgumentValues();
-            int argumentCount = argumentValues.getArgumentCount();
-            if(!argumentValues.isEmpty()){
+
+            if(argumentValues !=null && !argumentValues.isEmpty()){
+                int argumentCount = argumentValues.getArgumentCount();
                 Class<?>[] paramTypes = new Class<?>[argumentCount];
                 Object[] paramValues = new Object[argumentCount];
                 for(int i= 0;i<argumentCount;i++){
