@@ -28,6 +28,7 @@ public class RequestMappingHandleMapping implements HandlerMapping{
 
     public RequestMappingHandleMapping(WebApplicationContext wac) {
         this.wac = wac;
+
         initMapping();
     }
 

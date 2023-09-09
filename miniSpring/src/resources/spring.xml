@@ -37,6 +37,9 @@
 
     </bean>
 
+    <bean id="webBindingInitializer" class="com.mini.test.web.custom.DateInitializer">
+    </bean>
+
 
 </beans>
 

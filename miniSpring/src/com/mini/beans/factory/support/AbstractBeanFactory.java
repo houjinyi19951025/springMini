@@ -43,6 +43,9 @@ public abstract  class AbstractBeanFactory extends DefaultSingletonBeanRegistry 
             if (singleton == null) {
                 System.out.println("get bean null -------------- " + beanName);
                 BeanDefinition bd = beanDefinitionMap.get(beanName);
+                if(bd ==null){
+                    return singleton;
+                }
                 singleton=createBean(bd);
                 this.registerBean(beanName, singleton);
 
