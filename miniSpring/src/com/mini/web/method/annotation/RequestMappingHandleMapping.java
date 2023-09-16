@@ -1,17 +1,27 @@
-package com.mini.web.servlet;
+package com.mini.web.method.annotation;
 
 import com.mini.beans.BeanException;
-import com.mini.web.RequestMapping;
-import com.mini.web.WebApplicationContext;
+import com.mini.context.ApplicationContext;
+import com.mini.context.ApplicationContextAware;
+import com.mini.web.bind.annotation.RequestMapping;
+import com.mini.web.context.WebApplicationContext;
+import com.mini.web.servlet.HandlerMapping;
+import com.mini.web.method.HandlerMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
-public class RequestMappingHandleMapping implements HandlerMapping{
-    WebApplicationContext wac;
-    private final MappingRegistry mappingRegistry = new MappingRegistry();
+public class RequestMappingHandleMapping implements HandlerMapping, ApplicationContextAware {
+//    WebApplicationContext wac;
+
+    ApplicationContext applicationContext;
+    private  MappingRegistry mappingRegistry =null;
     @Override
     public HandlerMethod getHandler(HttpServletRequest request) throws Exception {
+        if(this.mappingRegistry == null ){
+            this.mappingRegistry = new MappingRegistry();
+            initMapping();
+        }
         String sPath = request.getServletPath();
         if(!this.mappingRegistry.getUrlMappingNames().contains(sPath)){
             return null;
@@ -26,11 +36,15 @@ public class RequestMappingHandleMapping implements HandlerMapping{
 
     }
 
-    public RequestMappingHandleMapping(WebApplicationContext wac) {
-        this.wac = wac;
+    public RequestMappingHandleMapping() {
 
-        initMapping();
     }
+
+//    public RequestMappingHandleMapping(WebApplicationContext wac) {
+//        this.wac = wac;
+//
+//        initMapping();
+//    }
 
     private void initMapping() {
 
@@ -38,7 +52,7 @@ public class RequestMappingHandleMapping implements HandlerMapping{
 
         Object obj = null;
 
-        String[] controllerNames = this.wac.getBeanDefinitionNames();
+        String[] controllerNames = this.applicationContext.getBeanDefinitionNames();
 
         for(String controllerName :controllerNames){
             try {
@@ -48,7 +62,7 @@ public class RequestMappingHandleMapping implements HandlerMapping{
                 throw new RuntimeException(e);
             }
             try {
-                obj = this.wac.getBean(controllerName);
+                obj = this.applicationContext.getBean(controllerName);
             } catch (BeanException e) {
                 throw new RuntimeException(e);
             }
@@ -65,10 +79,17 @@ public class RequestMappingHandleMapping implements HandlerMapping{
                     this.mappingRegistry.getUrlMappingNames().add(urlMapping);
                     this.mappingRegistry.getMappingObjs().put(urlMapping, obj);
                     this.mappingRegistry.getMappingMethods().put(urlMapping, method);
+                    this.mappingRegistry.getMappingMethodNames().put(urlMapping, methodName);
+                    this.mappingRegistry.getMappingClasses().put(urlMapping, clz);
                 }
             }
         }
 
 
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeanException {
+        this.applicationContext = applicationContext;
     }
 }

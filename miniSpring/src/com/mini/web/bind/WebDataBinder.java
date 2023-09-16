@@ -1,9 +1,10 @@
-package com.mini.web;
+package com.mini.web.bind;
 
 import com.mini.beans.AbstractPropertyAccessor;
 import com.mini.beans.PropertyEditor;
 import com.mini.beans.factory.config.PropertyValues;
 import com.mini.util.WebUtils;
+import com.mini.web.BeanWrapperImpl;
 
 import javax.servlet.http.HttpServletRequest;
 

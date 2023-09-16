@@ -22,7 +22,11 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
     private ApplicationEventPublisher applicationEventPublisher;
     @Override
     public Object getBean(String beanName) throws BeanException{
-        return getBeanFactory().getBean(beanName);
+        Object bean = getBeanFactory().getBean(beanName);
+        if(bean instanceof ApplicationContextAware){
+            ((ApplicationContextAware) bean).setApplicationContext(this);
+        }
+        return bean;
     }
 
     @Override

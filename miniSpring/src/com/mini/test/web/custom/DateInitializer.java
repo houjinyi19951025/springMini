@@ -1,8 +1,8 @@
 package com.mini.test.web.custom;
 
 
-import com.mini.web.WebBindingInitializer;
-import com.mini.web.WebDataBinder;
+import com.mini.web.bind.support.WebBindingInitializer;
+import com.mini.web.bind.WebDataBinder;
 
 import java.util.Date;
 

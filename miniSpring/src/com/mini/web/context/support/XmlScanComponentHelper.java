@@ -1,4 +1,4 @@
-package com.mini.web;
+package com.mini.web.context.support;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;

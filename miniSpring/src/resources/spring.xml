@@ -32,13 +32,33 @@
     </bean>
 
     <bean id="personService" class="com.mini.test.PersonServiceImpl">
+    </bean>
 
-
-
+    <bean id="messageConverter" class="com.mini.http.converter.DefaultHttpMessageConverter">
+        <property type="com.mini.util.ObjectMapper" name="objectMapper" ref="objectMapper"/>
     </bean>
 
     <bean id="webBindingInitializer" class="com.mini.test.web.custom.DateInitializer">
     </bean>
+
+    <bean id="handlerMapping" class="com.mini.web.method.annotation.RequestMappingHandleMapping"/>
+
+    <bean id="objectMapper" class="com.mini.util.DefaultObjectMapper" >
+        <property type="String" name="dateFormat" value="yyyy/MM/dd"/>
+        <property type="String" name="decimalFormat" value="###.##"/>
+    </bean>>
+
+    <bean id="handlerAdapter" class="com.mini.web.method.annotation.RequestMappingHandlerAdapter">
+        <property type="com.mini.http.converter.HttpMessageConverter" name="messageConverter" ref="messageConverter"/>
+        <property type="com.mini.web.bind.support.WebBindingInitializer" name="webBindingInitializer" ref="webBindingInitializer"/>
+    </bean>
+
+    <bean id="viewResolver" class="com.mini.web.servlet.view.InternalResourceViewResolver" >
+        <property type="String" name="viewClassName" value="com.mini.web.servlet.view.JstlView" />
+        <property type="String" name="prefix" value="/jsp/" />
+        <property type="String" name="suffix" value=".jsp" />
+    </bean>
+
 
 
 </beans>

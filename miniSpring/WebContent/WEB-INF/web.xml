@@ -6,7 +6,7 @@
   </context-param>
   <listener>
     <listener-class>
-      com.mini.web.ContextLoaderListener
+      com.mini.web.context.ContextLoaderListener
     </listener-class>
   </listener>
 

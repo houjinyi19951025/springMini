@@ -1,4 +1,4 @@
-package com.mini.web;
+package com.mini.web.context.support;
 
 import com.mini.beans.BeanException;
 import com.mini.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
@@ -9,7 +9,7 @@ import com.mini.beans.factory.support.DefaultListableBeanFactory;
 import com.mini.context.AbstractApplicationContext;
 import com.mini.context.ApplicationEvent;
 import com.mini.context.ApplicationListener;
-import com.mini.context.ClassPathXmlApplicationContext;
+import com.mini.web.context.WebApplicationContext;
 
 import javax.servlet.ServletContext;
 import java.io.File;

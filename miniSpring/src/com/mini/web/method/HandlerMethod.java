@@ -1,5 +1,7 @@
-package com.mini.web.servlet;
+package com.mini.web.method;
 
+
+import com.mini.web.servlet.MethodParameter;
 
 import java.lang.reflect.Method;
 
