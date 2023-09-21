@@ -34,6 +34,19 @@
     <bean id="personService" class="com.mini.test.PersonServiceImpl">
     </bean>
 
+    <bean id="dataSource" class="com.mini.jdbc.datasource.SingleConnectionDataSource">
+        <property type="String" name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property type="String" name="url" value="jdbc:mysql://127.0.0.1:3306/test"/>
+        <property type="String" name="username" value="root"/>
+        <property type="String" name="password" value="root"/>
+    </bean>
+
+    <bean id="studentService" class="com.mini.test.service.StudentServiceImpl">
+    </bean>
+    <bean id="jdbcTemplate" class="com.mini.jdbc.core.JdbcTemplate">
+        <property type="javax.sql.DataSource" name="dataSource" ref="dataSource"/>
+    </bean>
+
     <bean id="messageConverter" class="com.mini.http.converter.DefaultHttpMessageConverter">
         <property type="com.mini.util.ObjectMapper" name="objectMapper" ref="objectMapper"/>
     </bean>

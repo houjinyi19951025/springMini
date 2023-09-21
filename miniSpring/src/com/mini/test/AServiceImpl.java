@@ -21,6 +21,11 @@ public class AServiceImpl {
         bServiceImpl.say();
     }
 
+    public void query(){
+
+
+    }
+
     public BServiceImpl getbServiceImpl() {
         return bServiceImpl;
     }
