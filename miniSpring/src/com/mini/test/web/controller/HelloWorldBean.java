@@ -3,11 +3,14 @@ package com.mini.test.web.controller;
 
 import com.mini.beans.factory.annotation.Autowired;
 import com.mini.test.PersonServiceImpl;
+import com.mini.test.dto.Student;
 import com.mini.test.service.StudentServiceImpl;
 import com.mini.test.web.entity.User;
 import com.mini.web.bind.annotation.RequestMapping;
 import com.mini.web.bind.annotation.ResponseBody;
 import com.mini.web.servlet.ModelAndView;
+
+import java.util.List;
 
 public class HelloWorldBean {
 
@@ -39,7 +42,9 @@ public class HelloWorldBean {
 		System.out.println(".....................");
 		personService.query();
 		studentService.query();
-		studentService.select();
+		studentService.selectByArgs(4);
+		List<Student> students = studentService.queryList(1);
+		System.out.println(students);
 		System.out.println(".....................");
 		return user;
 	}

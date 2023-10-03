@@ -34,11 +34,19 @@
     <bean id="personService" class="com.mini.test.PersonServiceImpl">
     </bean>
 
-    <bean id="dataSource" class="com.mini.jdbc.datasource.SingleConnectionDataSource">
+<!--    <bean id="dataSource" class="com.mini.jdbc.datasource.SingleConnectionDataSource">-->
+<!--        <property type="String" name="driverClassName" value="com.mysql.jdbc.Driver"/>-->
+<!--        <property type="String" name="url" value="jdbc:mysql://127.0.0.1:3306/test"/>-->
+<!--        <property type="String" name="username" value="root"/>-->
+<!--        <property type="String" name="password" value="root"/>-->
+<!--    </bean>-->
+
+    <bean id="dataSource" class="com.mini.jdbc.pool.PooledDataSource">
         <property type="String" name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property type="String" name="url" value="jdbc:mysql://127.0.0.1:3306/test"/>
         <property type="String" name="username" value="root"/>
         <property type="String" name="password" value="root"/>
+<!--        <property type="int" name="initialSize" value="3"/>-->
     </bean>
 
     <bean id="studentService" class="com.mini.test.service.StudentServiceImpl">
