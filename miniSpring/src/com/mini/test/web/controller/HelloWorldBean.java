@@ -43,6 +43,8 @@ public class HelloWorldBean {
 		personService.query();
 		studentService.query();
 		studentService.selectByArgs(4);
+		studentService.selectByMybatis(1);
+
 		List<Student> students = studentService.queryList(1);
 		System.out.println(students);
 		System.out.println(".....................");

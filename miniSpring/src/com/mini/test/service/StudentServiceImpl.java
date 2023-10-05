@@ -1,5 +1,7 @@
 package com.mini.test.service;
 
+import com.mini.batis.DefaultSqlSessionFactory;
+import com.mini.batis.SqlSession;
 import com.mini.beans.factory.annotation.Autowired;
 import com.mini.jdbc.core.JdbcTemplate;
 import com.mini.jdbc.core.PreparedStatementCallback;
@@ -17,6 +19,9 @@ public class StudentServiceImpl {
 
    @Autowired
     JdbcTemplate jdbcTemplate;
+
+   @Autowired
+    DefaultSqlSessionFactory sqlSessionFactory;
     public void query(){
         StudentJdbcImpl studentJdbc = new StudentJdbcImpl();
         String sql = "select name from students where id = 2";
@@ -59,6 +64,22 @@ public class StudentServiceImpl {
 
 
 
+        });
+    }
+
+    public void selectByMybatis(int id){
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        sqlSession.selectOne("com.mini.test.dto.Student.queryById", new Object[]{new Integer(id)}, new PreparedStatementCallback() {
+            @Override
+            public Object doInPreparedStatement(PreparedStatement stmt) throws SQLException {
+                Student student = new Student();
+                ResultSet resultSet = stmt.executeQuery();
+                if(resultSet.next()){
+                    student.name = resultSet.getString("name");
+                }
+                System.out.println("带参数的学生selectByMybatis："+student);
+                return student;
+            }
         });
     }
 

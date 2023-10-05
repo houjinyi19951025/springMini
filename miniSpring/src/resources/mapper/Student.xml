@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="com.mini.test.dto.Student">
+    <select id="queryById" parameterType="java.lang.Integer" resultType="com.mini.test.dto.Student">
+        select id, name
+        from students
+        where id=?
+    </select>
+</mapper>

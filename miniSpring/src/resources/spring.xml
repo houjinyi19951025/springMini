@@ -55,6 +55,10 @@
         <property type="javax.sql.DataSource" name="dataSource" ref="dataSource"/>
     </bean>
 
+    <bean id="sqlSessionFactory" class="com.mini.batis.DefaultSqlSessionFactory" init-method="init">
+        <property type="String" name="mapperLocations" value="resources/mapper"></property>
+    </bean>
+
     <bean id="messageConverter" class="com.mini.http.converter.DefaultHttpMessageConverter">
         <property type="com.mini.util.ObjectMapper" name="objectMapper" ref="objectMapper"/>
     </bean>
