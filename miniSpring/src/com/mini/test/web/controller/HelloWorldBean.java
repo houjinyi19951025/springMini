@@ -4,12 +4,16 @@ package com.mini.test.web.controller;
 import com.mini.beans.factory.annotation.Autowired;
 import com.mini.test.PersonServiceImpl;
 import com.mini.test.dto.Student;
+import com.mini.test.service.IAction;
 import com.mini.test.service.StudentServiceImpl;
 import com.mini.test.web.entity.User;
 import com.mini.web.bind.annotation.RequestMapping;
 import com.mini.web.bind.annotation.ResponseBody;
 import com.mini.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 public class HelloWorldBean {
@@ -19,6 +23,25 @@ public class HelloWorldBean {
 
 	@Autowired
 	StudentServiceImpl studentService;
+
+	@Autowired
+	IAction action;
+
+	@RequestMapping("/testaop")
+	public void doTestAop(HttpServletRequest request, HttpServletResponse response) {
+
+		System.out.println("action -------------- " + action + "----------------");
+
+		action.doAction();
+
+		String str = "test aop, hello world!";
+		try {
+			response.getWriter().write(str);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	@RequestMapping("/test1")
 	public String doTest1() {
 		return "test 1, hello world!";

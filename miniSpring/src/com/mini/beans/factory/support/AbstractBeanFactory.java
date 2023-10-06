@@ -4,6 +4,7 @@ import com.mini.beans.ArgumentValue;
 import com.mini.beans.BeanException;
 import com.mini.beans.PropertyValue;
 import com.mini.beans.factory.BeanFactory;
+import com.mini.beans.factory.FactoryBean;
 import com.mini.beans.factory.config.*;
 
 import java.lang.reflect.InvocationTargetException;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public abstract  class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory,BeanDefinitionRegistry {
+public abstract  class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory,BeanDefinitionRegistry {
 
     public final Map<String, BeanDefinition> beanDefinitionMap=new ConcurrentHashMap<>(256);
 
@@ -66,7 +67,17 @@ public abstract  class AbstractBeanFactory extends DefaultSingletonBeanRegistry 
         if (singleton == null) {
             throw new BeanException("bean is null.");
         }
+        if(singleton instanceof FactoryBean){
+            return this.getObjectForBeanInstance(singleton,beanName);
+        }
         return singleton;
+    }
+
+    private Object getObjectForBeanInstance(Object singleton, String beanName) {
+        Object object = null;
+        FactoryBean<?> factory = (FactoryBean<?>) singleton;
+        object = getObjectFromFactoryBean(factory,beanName);
+        return object;
     }
 
     abstract public Object applyBeanPostProcessorsAfterInitialization(Object singleton, String beanName) throws BeanException ;
