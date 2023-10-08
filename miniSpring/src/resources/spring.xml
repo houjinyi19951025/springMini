@@ -88,7 +88,12 @@
 
     <bean id="action" class="com.mini.aop.ProxyFactoryBean" >
         <property type="java.lang.Object" name="target" ref="realaction"/>
+        <property type="String" name="interceptorName" value="myBeforeAdvice"/>
     </bean>
+
+    <bean id="myInterceptor" class="com.mini.test.service.MyInterceptor" />
+
+    <bean id="myBeforeAdvice" class="com.mini.test.service.MyBeforeAdvice" />
 
 
 

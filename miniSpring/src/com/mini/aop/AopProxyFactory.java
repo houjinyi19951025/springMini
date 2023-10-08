@@ -1,5 +1,5 @@
 package com.mini.aop;
 
 public interface AopProxyFactory {
-    AopProxy createAopProxy(Object target);
+    AopProxy createAopProxy(Object target,Advisor advisor);
 }
