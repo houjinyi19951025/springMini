@@ -88,12 +88,17 @@
 
     <bean id="action" class="com.mini.aop.ProxyFactoryBean" >
         <property type="java.lang.Object" name="target" ref="realaction"/>
-        <property type="String" name="interceptorName" value="myBeforeAdvice"/>
+        <property type="String" name="interceptorName" value="advisor"/>
     </bean>
 
     <bean id="myInterceptor" class="com.mini.test.service.MyInterceptor" />
 
     <bean id="myBeforeAdvice" class="com.mini.test.service.MyBeforeAdvice" />
+
+    <bean id="advisor" class="com.mini.aop.NameMatchMethodPointcutAdvisor">
+        <property type="com.mini.aop.Advice" name="advice" ref="myBeforeAdvice"/>
+        <property type="String" name="mappedName" value="do*"/>
+    </bean>
 
 
 

@@ -32,7 +32,7 @@ public class HelloWorldBean {
 
 		System.out.println("action -------------- " + action + "----------------");
 
-		action.doAction();
+		action.doSomething();
 
 		String str = "test aop, hello world!";
 		try {
