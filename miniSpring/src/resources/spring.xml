@@ -30,6 +30,7 @@
         <property type="com.mini.test.TestServiceImpl" name="testServiceImpl" ref="testServiceImpl"/>
 
     </bean>
+    <bean id="autowiredAnnotationBeanPostProcessor" class="com.mini.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
 
     <bean id="personService" class="com.mini.test.PersonServiceImpl">
     </bean>
@@ -84,12 +85,12 @@
         <property type="String" name="suffix" value=".jsp" />
     </bean>
 
-    <bean id="realaction" class="com.mini.test.service.Action" />
+    <bean id="action" class="com.mini.test.service.Action" />
 
-    <bean id="action" class="com.mini.aop.ProxyFactoryBean" >
-        <property type="java.lang.Object" name="target" ref="realaction"/>
-        <property type="String" name="interceptorName" value="advisor"/>
-    </bean>
+<!--    <bean id="action" class="com.mini.aop.ProxyFactoryBean" >-->
+<!--        <property type="java.lang.Object" name="target" ref="realaction"/>-->
+<!--        <property type="String" name="interceptorName" value="advisor"/>-->
+<!--    </bean>-->
 
     <bean id="myInterceptor" class="com.mini.test.service.MyInterceptor" />
 
@@ -98,6 +99,11 @@
     <bean id="advisor" class="com.mini.aop.NameMatchMethodPointcutAdvisor">
         <property type="com.mini.aop.Advice" name="advice" ref="myBeforeAdvice"/>
         <property type="String" name="mappedName" value="do*"/>
+    </bean>
+
+    <bean id="autoProxyCreator" class="com.mini.aop.framework.autoproxy.BeanNameAutoProxyCreator" >
+        <property type="String" name="pattern" value="action*" />
+        <property type="String" name="interceptorName" value="advisor" />
     </bean>
 
 

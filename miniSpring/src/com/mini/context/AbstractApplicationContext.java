@@ -59,7 +59,11 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
         postProcessBeanFactory(getBeanFactory());
 
         // 注册BeanPostProcessors
-        registerBeanPostProcessors(getBeanFactory());
+        try {
+            registerBeanPostProcessors(getBeanFactory());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         // 初始化事件监听
         initApplicationEventPublisher();
@@ -81,7 +85,7 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
     protected abstract void initApplicationEventPublisher() ;
 
 
-    protected  abstract  void registerBeanPostProcessors(ConfigurableListableBeanFactory beanFactory) ;
+    protected  abstract  void registerBeanPostProcessors(ConfigurableListableBeanFactory beanFactory) throws ClassNotFoundException;
 
 
     protected abstract void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) ;

@@ -2,12 +2,13 @@ package com.mini.beans.factory.annotation;
 
 import com.mini.beans.BeanException;
 import com.mini.beans.factory.BeanFactory;
+import com.mini.beans.factory.BeanFactoryAware;
 import com.mini.beans.factory.config.AutowireCapableBeanFactory;
 import com.mini.beans.factory.config.BeanPostProcessor;
 
 import java.lang.reflect.Field;
 
-public class AutowiredAnnotationBeanPostProcessor implements BeanPostProcessor {
+public class AutowiredAnnotationBeanPostProcessor implements BeanPostProcessor, BeanFactoryAware {
 
     private BeanFactory beanFactory;
 
@@ -42,7 +43,6 @@ public class AutowiredAnnotationBeanPostProcessor implements BeanPostProcessor {
         return null;
     }
 
-    @Override
     public void setBeanFactory(BeanFactory beanFactory) {
         this.beanFactory = beanFactory;
     }

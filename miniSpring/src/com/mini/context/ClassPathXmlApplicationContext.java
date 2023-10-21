@@ -3,10 +3,7 @@ package com.mini.context;
 import com.mini.beans.*;
 import com.mini.beans.factory.BeanFactory;
 import com.mini.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
-import com.mini.beans.factory.config.AutowireCapableBeanFactory;
-import com.mini.beans.factory.config.BeanFactoryPostProcessor;
-import com.mini.beans.factory.config.BeanPostProcessor;
-import com.mini.beans.factory.config.ConfigurableListableBeanFactory;
+import com.mini.beans.factory.config.*;
 import com.mini.beans.factory.support.DefaultListableBeanFactory;
 //import com.mini.beans.factory.support.SimpleBeanFactory;
 import com.mini.beans.factory.xml.XmlBeanDefinitionReader;
@@ -74,7 +71,29 @@ public class ClassPathXmlApplicationContext extends AbstractApplicationContext {
     }
 
     public  void registerBeanPostProcessors(ConfigurableListableBeanFactory bf) {
-        this.beanFactory.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcessor());
+//        this.beanFactory.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcessor());
+        System.out.println("try to registerBeanPostProcessors................");
+        String[] beanDefinitionNames = this.getBeanDefinitionNames();
+        for(String bdName :beanDefinitionNames){
+            BeanDefinition definition =  this.beanFactory.getBeanDefinition(bdName);
+            String className = definition.getClassName();
+            Class<?> clz = null;
+            try {
+                clz = Class.forName(className);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            if(BeanPostProcessor.class.isAssignableFrom(clz)){
+                System.out.println(" registerBeanPostProcessors : " + className);
+                try {
+                    this.beanFactory.addBeanPostProcessor((BeanPostProcessor) this.beanFactory.getBean(bdName));
+                } catch (BeanException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        }
+
     }
 
     @Override
